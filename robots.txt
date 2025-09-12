@@ -18,7 +18,6 @@ Allow: /*.png$
 Allow: /*.gif$
 Allow: /*.svg$
 Allow: /*.webp$
-Crawl-delay: 0
 
 User-agent: *
 Allow: /
@@ -28,12 +27,6 @@ Disallow: /private/
 Disallow: /backup/
 Disallow: *.json
 Disallow: *.md
-
-# Clean URL preference for Google
-User-agent: Googlebot
-Disallow: /*?
-Disallow: /*&
-Allow: /*?utm_source=
 
 # Block deleted/old pages
 Disallow: /reviews-20*.html
@@ -54,6 +47,3 @@ Disallow: /glp1-forum-verified-excellence.html
 
 # Sitemap location for faster discovery
 Sitemap: https://sigmaaudley.net/sitemap.xml
-
-# Host preference (helps with canonicalization)
-Host: sigmaaudley.net
