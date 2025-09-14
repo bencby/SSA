@@ -3283,14 +3283,14 @@ body {
                 
                 <!-- Featured Products Notice -->
                 <div style="text-align: center; margin-bottom: 8px;">
-                    <span style="font-size: 0.8rem; color: #059669; font-weight: 600;">
+                    <span style="font-size: 1.1rem; color: #059669; font-weight: 600;">
                         📦 20% OFF Featured Products Section Below
                     </span>
                 </div>
                 
                 <!-- Countdown Timer -->
                 <div style="text-align: center;">
-                    <span style="font-size: 0.8rem; color: #dc2626; font-weight: 600;">ALL PROMOS END IN: </span>
+                    <span style="font-size: 1.1rem; color: #dc2626; font-weight: 600;">ALL PROMOS END IN: </span>
                     <span id="promoTimer" style="display: inline-block; font-size: 0.9rem; font-weight: 700; color: #fff; background: #dc2626; font-family: monospace; padding: 4px 10px; border-radius: 50px; border: 2px solid #dc2626; box-shadow: 0 2px 4px rgba(220, 38, 38, 0.2);">Loading...</span>
                     <span style="font-size: 0.75rem; color: #6b7280; margin-left: 8px;">Next: Christmas</span>
                 </div>
@@ -3392,12 +3392,12 @@ body {
                     
                     /* Smaller featured products line on mobile */
                     section > div > div[style*="background: #fff"] > div:nth-child(4) span {
-                        font-size: 0.75rem !important;
+                        font-size: 0.95rem !important;
                     }
                     
                     /* Smaller timer */
                     section > div > div[style*="background: #fff"] > div:nth-child(5) span {
-                        font-size: 0.65rem !important;
+                        font-size: 0.85rem !important;
                     }
                     section > div > div[style*="background: #fff"] > div:nth-child(5) span#promoTimer {
                         font-size: 0.7rem !important;
@@ -3416,9 +3416,12 @@ body {
                         font-size: 0.65rem !important;
                     }
                     
-                    /* Hide email signup on mobile */
+                    /* Show email signup on mobile with proper styling */
                     section form#heroEmailForm {
-                        display: none !important;
+                        display: flex !important;
+                        width: 100% !important;
+                        max-width: 350px !important;
+                        margin: 0 auto !important;
                     }
                     
                     /* General text size reduction */
@@ -3490,7 +3493,8 @@ body {
                 <div class="email-signup-container" style="margin-top: 20px; padding: 12px 15px; background: rgba(255, 255, 255, 0.9); border-radius: 8px; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08); max-width: 400px; margin-left: auto; margin-right: auto;">
                     <div style="text-align: center;">
                         <p style="color: #dc2626; margin-bottom: 8px; font-size: 12px; font-weight: 600;">
-                            Get exclusive promo discounts & product updates
+                            <span class="desktop-text">Get exclusive promo discounts & product updates</span>
+                            <span class="mobile-text" style="display: none;">Get exclusive discounts & updates</span>
                         </p>
                         <form class="newsletter-signup-form" id="heroEmailForm" style="display: flex; gap: 8px; align-items: center;">
                             <input 
@@ -3525,6 +3529,13 @@ body {
                         .email-signup-container p {
                             font-size: 10px !important;
                             margin-bottom: 6px !important;
+                        }
+                        /* Show mobile text and hide desktop text on mobile */
+                        .email-signup-container .desktop-text {
+                            display: none !important;
+                        }
+                        .email-signup-container .mobile-text {
+                            display: inline !important;
                         }
                         .email-signup-container input {
                             font-size: 11px !important;
