@@ -4370,6 +4370,94 @@ Please confirm when applied and let me know about shipping. Thank you!
         </div>
     </div>
 
+    <!-- Bank Transfer Modal -->
+    <div class="modal" id="bankTransferModal" style="z-index: 10001 !important;">
+        <div class="modal-content" style="max-width: 700px; max-height: 90vh; overflow-y: auto;">
+            <div class="modal-header">
+                <h2 class="modal-title">
+                    <i class="fas fa-university" style="margin-right: 10px; color: #059669;"></i>
+                    Bank Transfer - Bulk Orders ($1500+)
+                </h2>
+                <button class="modal-close" onclick="closeModal('bankTransferModal');">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body" style="padding: 30px; line-height: 1.6;">
+                <div style="text-align: left; margin-bottom: 20px;">
+                    <button onclick="closeModal('bankTransferModal');" style="background: linear-gradient(135deg, #6b7280, #4b5563); color: white; border: none; padding: 8px 16px; border-radius: 6px; font-size: 0.9em; font-weight: 600; cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.1); transition: all 0.2s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+                        <i class="fas fa-arrow-left" style="margin-right: 6px;"></i>
+                        Back to Payment Selection
+                    </button>
+                </div>
+
+                <!-- Bank Transfer Information -->
+                <div style="background: linear-gradient(135deg, #f0fdf4, #dcfce7); border: 1px solid #059669; border-radius: 12px; padding: 25px; margin-bottom: 20px; text-align: center;">
+                    <div style="font-size: 2.5em; margin-bottom: 15px;">🏦</div>
+                    <h3 style="color: #14532d; margin: 0 0 15px 0; font-size: 1.4em; font-weight: 600;">
+                        Bank Transfer Payment Available
+                    </h3>
+                    <p style="color: #166534; margin: 0; font-size: 1.1em; font-weight: 500;">
+                        For orders over $1500 only
+                    </p>
+                </div>
+
+                <!-- Requirements -->
+                <div style="background: #fef3c7; border: 1px solid #f59e0b; border-radius: 8px; padding: 20px; margin-bottom: 20px;">
+                    <h4 style="color: #92400e; margin: 0 0 15px 0; font-size: 1.2em; font-weight: 600;">
+                        📋 Requirements:
+                    </h4>
+                    <ul style="color: #92400e; margin: 0; padding-left: 20px;">
+                        <li style="margin-bottom: 8px;"><strong>Minimum Order:</strong> $1500 USD</li>
+                        <li style="margin-bottom: 8px;"><strong>Order List Required:</strong> Send your complete product list first</li>
+                        <li style="margin-bottom: 8px;"><strong>Processing Time:</strong> 1-2 business days to process</li>
+                        <li><strong>Verification:</strong> Orders subject to verification</li>
+                    </ul>
+                </div>
+
+                <!-- Process Steps -->
+                <div style="background: #eff6ff; border: 1px solid #3b82f6; border-radius: 8px; padding: 20px; margin-bottom: 20px;">
+                    <h4 style="color: #1e40af; margin: 0 0 15px 0; font-size: 1.2em; font-weight: 600;">
+                        🔄 Process:
+                    </h4>
+                    <ol style="color: #1e40af; margin: 0; padding-left: 20px;">
+                        <li style="margin-bottom: 10px;">
+                            <strong>Email Your List:</strong> Send complete product list to
+                            <a href="mailto:support@sigmaaudley.net" style="color: #1d4ed8; font-weight: 600; text-decoration: none;">support@sigmaaudley.net</a>
+                        </li>
+                        <li style="margin-bottom: 10px;"><strong>Quote Approval:</strong> We'll send you a detailed quote and payment instructions</li>
+                        <li style="margin-bottom: 10px;"><strong>Bank Details:</strong> Receive secure wire transfer details</li>
+                        <li><strong>Order Processing:</strong> Production begins after payment confirmation</li>
+                    </ol>
+                </div>
+
+                <!-- Contact Information -->
+                <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 20px; text-align: center;">
+                    <h4 style="color: #475569; margin: 0 0 15px 0; font-size: 1.1em; font-weight: 600;">
+                        💬 Contact Information:
+                    </h4>
+                    <div style="color: #64748b; font-size: 1.1em;">
+                        <p style="margin: 8px 0;">
+                            <strong>Email:</strong>
+                            <a href="mailto:support@sigmaaudley.net" style="color: #0284c7; font-weight: 600; text-decoration: none;">
+                                support@sigmaaudley.net
+                            </a>
+                        </p>
+                        <p style="margin: 8px 0; font-size: 0.9em; color: #94a3b8;">
+                            Include "BANK TRANSFER - BULK ORDER" in your subject line
+                        </p>
+                    </div>
+                </div>
+
+                <div style="text-align: center; margin-top: 30px;">
+                    <button onclick="closeModal('bankTransferModal');" style="background: linear-gradient(135deg, #059669, #047857); color: white; border: none; padding: 12px 30px; border-radius: 8px; font-size: 1em; font-weight: 600; cursor: pointer; box-shadow: 0 4px 6px rgba(0,0,0,0.1); transition: all 0.2s;" onmouseover="this.style.transform='scale(1.05)'; this.style.boxShadow='0 6px 12px rgba(0,0,0,0.2)'" onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='0 4px 6px rgba(0,0,0,0.1)'">
+                        <i class="fas fa-arrow-left" style="margin-right: 8px;"></i>
+                        Back to Payment Selection
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Contact Modal -->
     <div class="modal contact-modal" id="contactModal">
         <div class="modal-content">
@@ -4974,6 +5062,19 @@ Please confirm when applied and let me know about shipping. Thank you!
                                             <i class="fas fa-question-circle" style="margin-right: 6px;"></i>
                                             How to pay with crypto?
                                         </button>
+                                    </div>
+                                </div>
+                            </label>
+                            <!-- Bank Transfer Option -->
+                            <label class="payment-method" onclick="updatePaymentMethod(); showBankTransferModal();" style="cursor: pointer;">
+                                <input type="radio" name="paymentMethod" value="bank" onchange="updatePaymentMethod();">
+                                <div class="payment-option">
+                                    <div class="payment-icon">
+                                        <i class="fas fa-university"></i>
+                                    </div>
+                                    <div class="payment-info">
+                                        <h4>Bank Transfer <span class="discount-badge" style="background: #059669;">Orders $1500+</span></h4>
+                                        <p>Contact support@sigmaaudley.net with your list - Bulk orders only</p>
                                     </div>
                                 </div>
                             </label>
@@ -10923,7 +11024,23 @@ Please confirm when applied and let me know about shipping. Thank you!
                 }
             }, 50);
         }
-        
+
+        // Show bank transfer modal
+        function showBankTransferModal() {
+            // Don't close checkout modal, just show the bank transfer modal on top
+            showModal('bankTransferModal');
+
+            // Ensure the modal appears on top by setting focus and z-index
+            setTimeout(() => {
+                const modal = document.getElementById('bankTransferModal');
+                if (modal) {
+                    modal.style.zIndex = '10001';
+                    modal.style.setProperty('z-index', '10001', 'important');
+                    modal.focus();
+                }
+            }, 50);
+        }
+
         // Store original Amazon modal content for restoration
         let originalAmazonModalContent = null;
         let originalAmazonModalTitle = null;
