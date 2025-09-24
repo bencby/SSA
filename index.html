@@ -4969,7 +4969,7 @@ Please confirm when applied and let me know about shipping. Thank you!
                                     </div>
                                     <div class="payment-info">
                                         <h4>Cryptocurrency <span class="discount-badge">15% EXTRA OFF!</span></h4>
-                                        <p>BTC, ETH, PayPalUSD, LTC, SOL, USDT, USDC, XRP, ADA, BNB - Fast & anonymous</p>
+                                        <p>BTC, ETH, PayPalUSD, LTC, SOL, USDT, USDC, XRP, ADA, BNB, TRX, cbBTC - Fast & anonymous</p>
                                         <button type="button" onclick="event.stopPropagation(); showCryptoGuideModal();" style="margin-top: 10px; background: linear-gradient(135deg, #0284c7, #0369a1); color: white; border: none; padding: 8px 16px; border-radius: 6px; font-size: 0.9em; cursor: pointer; font-weight: 600; box-shadow: 0 2px 4px rgba(0,0,0,0.1); transition: all 0.2s;" onmouseover="this.style.transform='scale(1.05)'; this.style.boxShadow='0 4px 8px rgba(0,0,0,0.2)'" onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='0 2px 4px rgba(0,0,0,0.1)'">
                                             <i class="fas fa-question-circle" style="margin-right: 6px;"></i>
                                             How to pay with crypto?
@@ -5109,7 +5109,9 @@ Please confirm when applied and let me know about shipping. Thank you!
                 usdt: { name: 'Tether USDT', symbol: 'USDT', color: '#16a34a', network: 'Ethereum Network', qrCode: 'TETHER QR CODE.png' },
                 usdc: { name: 'USD Coin', symbol: 'USDC', color: '#3b82f6', network: 'Ethereum Network', qrCode: 'USDC QR CODE.png' },
                 ada: { name: 'Cardano', symbol: 'ADA', color: '#0ea5e9', network: 'Cardano Network', qrCode: 'CARDANO QR CODE.png' },
-                bnb: { name: 'BNB', symbol: 'BNB', color: '#eab308', network: 'BSC Network', qrCode: 'BSC QR CODE.png' }
+                bnb: { name: 'BNB', symbol: 'BNB', color: '#eab308', network: 'BSC Network', qrCode: 'BSC QR CODE.png' },
+                tron: { name: 'Tron', symbol: 'TRX', color: '#dc2626', network: 'TRON Network', qrCode: 'TRON QR CODE.png' },
+                cbbtc: { name: 'Coinbase Wrapped BTC', symbol: 'cbBTC', color: '#1652f0', network: 'BASE Network', qrCode: 'CB QR CODE.png' }
             };
             
             const info = cryptoInfo[crypto];
@@ -11127,7 +11129,7 @@ Please confirm when applied and let me know about shipping. Thank you!
         let orderData = {};
         let currentOrderId = '';
         // Initialize with reasonable fallback prices
-        let cryptoPrices = { 
+        let cryptoPrices = {
             btc: 95000,  // Bitcoin fallback
             eth: 3200,   // Ethereum fallback
             xrp: 2.5,    // XRP fallback
@@ -11137,7 +11139,9 @@ Please confirm when applied and let me know about shipping. Thank you!
             pyusd: 1,    // PYUSD (stable)
             ada: 1.0,    // Cardano fallback
             bnb: 600,    // BNB fallback
-            ltc: 100     // Litecoin fallback
+            ltc: 100,    // Litecoin fallback
+            tron: 0.25,  // Tron fallback
+            cbbtc: 95000 // Coinbase Wrapped BTC fallback (same as BTC)
         };
         let priceUpdateInterval;
         let paymentTimers = {};
@@ -12909,12 +12913,14 @@ Thank you for your assistance.`;
                 },
                 {
                     name: 'Binance-Multi',
-                    url: 'https://api.binance.com/api/v3/ticker/price?symbols=["BTCUSDT","ETHUSDT","XRPUSDT","LTCUSDT","SOLUSDT","ADAUSDT","BNBUSDT"]',
+                    url: 'https://api.binance.com/api/v3/ticker/price?symbols=["BTCUSDT","ETHUSDT","XRPUSDT","LTCUSDT","SOLUSDT","ADAUSDT","BNBUSDT","TRXUSDT"]',
                     parsePrice: (data) => {
                         const prices = {};
                         if (Array.isArray(data)) {
                             data.forEach(ticker => {
-                                const symbol = ticker.symbol.replace('USDT', '').toLowerCase();
+                                let symbol = ticker.symbol.replace('USDT', '').toLowerCase();
+                                // Map TRX to tron for consistency
+                                if (symbol === 'trx') symbol = 'tron';
                                 prices[symbol] = parseFloat(ticker.price);
                             });
                         }
@@ -12923,7 +12929,7 @@ Thank you for your assistance.`;
                 },
                 {
                     name: 'CryptoCompare',
-                    url: 'https://min-api.cryptocompare.com/data/pricemulti?fsyms=BTC,ETH,XRP,LTC,SOL,ADA,BNB&tsyms=USD',
+                    url: 'https://min-api.cryptocompare.com/data/pricemulti?fsyms=BTC,ETH,XRP,LTC,SOL,ADA,BNB,TRX&tsyms=USD',
                     parsePrice: (data) => ({
                         btc: data.BTC?.USD,
                         eth: data.ETH?.USD,
@@ -12931,12 +12937,13 @@ Thank you for your assistance.`;
                         ltc: data.LTC?.USD,
                         sol: data.SOL?.USD,
                         ada: data.ADA?.USD,
-                        bnb: data.BNB?.USD
+                        bnb: data.BNB?.USD,
+                        tron: data.TRX?.USD
                     })
                 },
                 {
                     name: 'CoinCap',
-                    url: 'https://api.coincap.io/v2/assets?ids=bitcoin,ethereum,xrp,litecoin,solana,cardano,binance-coin',
+                    url: 'https://api.coincap.io/v2/assets?ids=bitcoin,ethereum,xrp,litecoin,solana,cardano,binance-coin,tron',
                     parsePrice: (data) => {
                         const prices = {};
                         if (data.data && Array.isArray(data.data)) {
@@ -12947,7 +12954,8 @@ Thank you for your assistance.`;
                                 'litecoin': 'ltc',
                                 'solana': 'sol',
                                 'cardano': 'ada',
-                                'binance-coin': 'bnb'
+                                'binance-coin': 'bnb',
+                                'tron': 'tron'
                             };
                             data.data.forEach(asset => {
                                 const key = mapping[asset.id];
@@ -12959,7 +12967,7 @@ Thank you for your assistance.`;
                 },
                 {
                     name: 'CoinRanking',
-                    url: 'https://api.coinranking.com/v2/coins?symbols=BTC,ETH,XRP,LTC,SOL,ADA,BNB&limit=10',
+                    url: 'https://api.coinranking.com/v2/coins?symbols=BTC,ETH,XRP,LTC,SOL,ADA,BNB,TRX&limit=10',
                     parsePrice: (data) => {
                         const prices = {};
                         if (data.data && data.data.coins && Array.isArray(data.data.coins)) {
@@ -13001,7 +13009,7 @@ Thank you for your assistance.`;
                     const prices = api.parsePrice(data);
                     
                     // Handle both single price (old BTC APIs) and multi-price responses
-                    if (typeof prices === 'object' && (prices.btc || prices.eth || prices.xrp || prices.sol || prices.ada || prices.bnb)) {
+                    if (typeof prices === 'object' && (prices.btc || prices.eth || prices.xrp || prices.sol || prices.ada || prices.bnb || prices.tron || prices.cbbtc)) {
                         // Multi-currency response - log available prices
                         const priceLog = [];
                         if (prices.btc) priceLog.push(`BTC=$${prices.btc.toFixed(2)}`);
@@ -13010,6 +13018,8 @@ Thank you for your assistance.`;
                         if (prices.sol) priceLog.push(`SOL=$${prices.sol.toFixed(2)}`);
                         if (prices.ada) priceLog.push(`ADA=$${prices.ada.toFixed(4)}`);
                         if (prices.bnb) priceLog.push(`BNB=$${prices.bnb.toFixed(2)}`);
+                        if (prices.tron) priceLog.push(`TRX=$${prices.tron.toFixed(4)}`);
+                        if (prices.cbbtc) priceLog.push(`cbBTC=$${prices.cbbtc.toFixed(2)}`);
                         console.log(`✅ ${api.name}: ${priceLog.join(', ')}`);
                         return { name: api.name, prices: prices, timestamp: currentTime };
                     } else if (typeof prices === 'number' && prices > 10000 && prices < 1000000) {
@@ -13069,6 +13079,8 @@ Thank you for your assistance.`;
                 console.log(`  SOL: ${calculateCryptoAmount(100, 'sol')} SOL`);
                 console.log(`  ADA: ${calculateCryptoAmount(100, 'ada')} ADA`);
                 console.log(`  BNB: ${calculateCryptoAmount(100, 'bnb')} BNB`);
+                console.log(`  TRX: ${calculateCryptoAmount(100, 'tron')} TRX`);
+                console.log(`  cbBTC: ${calculateCryptoAmount(100, 'cbbtc')} cbBTC`);
                 
                 return;
             }
@@ -13215,7 +13227,9 @@ Thank you for your assistance.`;
                 pyusd: 2, // PYUSD: 2 decimals
                 ada: 2,  // Cardano: 2 decimals
                 bnb: 4,  // BNB: 4 decimals
-                ltc: 6   // Litecoin: 6 decimals
+                ltc: 6,  // Litecoin: 6 decimals
+                tron: 4,  // Tron: 4 decimals
+                cbbtc: 8  // Coinbase Wrapped BTC: 8 decimals (same as BTC)
             };
             
             return amount.toFixed(decimalPlaces[cryptoType] || 2);
@@ -13503,22 +13517,26 @@ Thank you for your assistance.`;
                 const adaAmount = calculateCryptoAmount(totalAmount, 'ada');
                 const bnbAmount = calculateCryptoAmount(totalAmount, 'bnb');
                 const ltcAmount = calculateCryptoAmount(totalAmount, 'ltc');
+                const tronAmount = calculateCryptoAmount(totalAmount, 'tron');
+                const cbbtcAmount = calculateCryptoAmount(totalAmount, 'cbbtc');
                 const usdtAmount = totalAmount.toFixed(2); // USDT is 1:1 with USD
                 const usdcAmount = totalAmount.toFixed(2); // USDC is 1:1 with USD
                 const pyusdAmount = totalAmount.toFixed(2); // PYUSD is 1:1 with USD
                 
                 // Wallet addresses
                 const wallets = {
-                    btc: 'bc1q0rqp9zr5ewyfztevx2emxggjnfdrsa4hks4v97', // Bitcoin (BTC Network)
-                    eth: '0x66ec630da87cE859700614a0F83E27F921556c2e', // Ethereum (ETH Network)
-                    pyusd: '0x4eb32cD8777cFB68E351Ce9F59fE222883F59ce1', // PayPal USD (ETH Network)
-                    xrp: 'rDV4QdZqXugC15dxq5c3x7Gj9YXAMnkQxN', // XRP (XRP Network)
-                    usdt: '0x4eb32cD8777cFB68E351Ce9F59fE222883F59ce1', // USDT (Ethereum Network)
-                    sol: '62AyK5pCwFNuZFnwUEZjvTFG2hVa7uiQKxEym2rXthYq', // Solana (SOL Network)
-                    usdc: '0x66ec630da87cE859700614a0F83E27F921556c2e', // USDC (Ethereum Network)
-                    ada: 'addr1qxel2mu57vcy4qmeyhgdx309nzl88nz7uspksxqxthehv3dn74hefuesf2phjfws6dz7tx97w0x9aeqrdqvqvh0nwezs5yf0h4', // Cardano (ADA Network)
-                    bnb: '0x4eb32cD8777cFB68E351Ce9F59fE222883F59ce1', // BNB (BSC Network)
-                    ltc: 'LfQKGVFQG9qEq3mx7DozkGTQWXnbJvT6zu' // Litecoin (LTC Network)
+                    btc: 'bc1qhg472p650zyjzuuykv64c8srpjqjjxp7zyyz6p', // Bitcoin (BTC Network)
+                    eth: '0xa8ba449Ff2A03e0Dd044076D4771D50Fb968a02B', // Ethereum (ETH Network)
+                    pyusd: '0xa8ba449Ff2A03e0Dd044076D4771D50Fb968a02B', // PayPal USD (ETH Network)
+                    xrp: 'rG7styHJw8t8b2AKYphtmu4yuUhUsXnjU2', // XRP (XRP Network)
+                    usdt: '0xa8ba449Ff2A03e0Dd044076D4771D50Fb968a02B', // USDT (Ethereum Network)
+                    sol: '4wnct8Cwtov7seKiqd4ostndku6KGt7zjgaheVABXwKy', // Solana (SOL Network)
+                    usdc: '0xa8ba449Ff2A03e0Dd044076D4771D50Fb968a02B', // USDC (Ethereum Network)
+                    ada: 'addr1q9dcqk3593e2jqmj2j0206q6590m7m9n4xmdcdpl4cga6k6mspdrgtrj4yphy4y75l5p4g2lhakt82dkms6rlts3m4dsfy7y2w', // Cardano (ADA Network)
+                    bnb: '0xa8ba449Ff2A03e0Dd044076D4771D50Fb968a02B', // BNB (BSC Network)
+                    ltc: 'LYjjaN9xmigYDddu5gj23HAaLjkFMDryBM', // Litecoin (LTC Network)
+                    tron: 'TC5FGoMTkeRkSitSFvdoG7vdnERNJjRGfL', // Tron (TRON Network)
+                    cbbtc: '0xa8ba449Ff2A03e0Dd044076D4771D50Fb968a02B' // Coinbase Wrapped BTC (BASE Network)
                 };
                 
                 instructionsHTML = `
@@ -13760,7 +13778,31 @@ Thank you for your assistance.`;
                                     </div>
                                     <span style="color: #9ca3af;">→</span>
                                 </button>
-                                
+
+                                <!-- Tron Button (TRON Network) -->
+                                <button onclick="showCryptoDetails('tron', '${tronAmount}', '${wallets.tron}', '${totalAmount.toFixed(2)}')" style="background: white; border: 2px solid #e5e7eb; padding: 15px; border-radius: 8px; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; justify-content: space-between;" onmouseover="this.style.borderColor='#dc2626'; this.style.background='#fef2f2'" onmouseout="this.style.borderColor='#e5e7eb'; this.style.background='white'">
+                                    <div style="display: flex; align-items: center; gap: 12px;">
+                                        <span style="font-size: 1.5em;">🔴</span>
+                                        <div style="text-align: left;">
+                                            <div style="font-weight: 600; color: #1f2937;">Tron (TRON Network)</div>
+                                            <div style="font-size: 0.85em; color: #6b7280;">${tronAmount} TRX</div>
+                                        </div>
+                                    </div>
+                                    <span style="color: #9ca3af;">→</span>
+                                </button>
+
+                                <!-- Coinbase Wrapped BTC Button (BASE Network) -->
+                                <button onclick="showCryptoDetails('cbbtc', '${cbbtcAmount}', '${wallets.cbbtc}', '${totalAmount.toFixed(2)}')" style="background: white; border: 2px solid #e5e7eb; padding: 15px; border-radius: 8px; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; justify-content: space-between;" onmouseover="this.style.borderColor='#1652f0'; this.style.background='#f0f7ff'" onmouseout="this.style.borderColor='#e5e7eb'; this.style.background='white'">
+                                    <div style="display: flex; align-items: center; gap: 12px;">
+                                        <span style="font-size: 1.5em;">🔵</span>
+                                        <div style="text-align: left;">
+                                            <div style="font-weight: 600; color: #1f2937;">Coinbase Wrapped BTC (BASE Network)</div>
+                                            <div style="font-size: 0.85em; color: #6b7280;">${cbbtcAmount} cbBTC</div>
+                                        </div>
+                                    </div>
+                                    <span style="color: #9ca3af;">→</span>
+                                </button>
+
                                 <!-- Additional Coin Support Message -->
                                 <div style="margin-top: 20px; padding: 15px; background: linear-gradient(135deg, #f0f9ff, #e0f2fe); border: 1px solid #0284c7; border-radius: 8px; text-align: center;">
                                     <p style="margin: 0; color: #0c4a6e; font-size: 0.9em; font-weight: 500;">
