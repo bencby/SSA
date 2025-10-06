@@ -3119,6 +3119,13 @@ body {
     }
 }
     </style>
+
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#000000">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Sigma Audley">
 </head>
 <body itemscope itemtype="https://schema.org/WebPage">
     <meta itemprop="name" content="Official Sigma Audley - Verified on Janoshik, GLP1Forum & Finnrick">
@@ -3298,7 +3305,7 @@ body {
                 <!-- Accepting Orders Notice -->
                 <div style="text-align: center; margin-top: 10px;">
                     <span style="font-size: 0.9rem; color: #dc2626; font-weight: 600;">
-                        ✅ Still operating as normal as of <span id="lastUpdatedDate"></span>. China orders rerouted to EU and USA warehouses. Contact <a href="mailto:support@sigmaaudley.net" style="color: #dc2626; text-decoration: underline;">support@sigmaaudley.net</a> or WhatsApp <a href="https://wa.me/85254725263" target="_blank" style="color: #dc2626; text-decoration: underline;">+852 54725263</a> for support - no longer on Telegram.
+                        ✅ Still operating as normal as of <span id="lastUpdatedDate"></span>. China orders rerouted to EU and USA warehouses. Contact <a href="mailto:support@sigmaaudley.net" style="color: #dc2626; text-decoration: underline;">support@sigmaaudley.net</a> for support - no longer on Telegram.
                     </span>
                 </div>
             </div>
@@ -5517,7 +5524,6 @@ Please confirm when applied and let me know about shipping. Thank you!
                 "name": "Official Sigma Audley",
                 "contact": {
                     "email": "support@sigmaaudley.net",
-                    "whatsapp": "+852 6562 8855",
                 }
             },
             
@@ -15431,6 +15437,17 @@ Thank you for your assistance.`;
                 }
             }
         })();
+    </script>
+
+    <!-- Service Worker Registration -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js')
+                    .then(reg => console.log('Service Worker registered:', reg.scope))
+                    .catch(err => console.log('Service Worker registration failed:', err));
+            });
+        }
     </script>
 
 </body>
